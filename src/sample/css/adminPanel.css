@@ -15,12 +15,12 @@
     -fx-background-color: #fff;
 }
 
-/* split pane */
-/*
+/* split pane*/
+
 .split-pane:horizontal > .split-pane-divider {
     -fx-background-color: transparent;
 }
 
 .split-pane:vertical > .split-pane-divider {
     -fx-background-color: transparent;
-}*/
+}

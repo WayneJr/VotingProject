@@ -1,5 +1,7 @@
 package sample;
 
+import sample.admin.Admin;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,10 +12,14 @@ public class DbConnection {
 
     public static Connection connection;
     public static PreparedStatement pst;
+    Admin admin = new Admin();
 
 
-    public Connection getConnection() {
+    public Connection getConnection(String serverAddress) {
+
+
         try {
+//            System.out.println(Admin.serverAddress);
             // Load the JDBC Driver
             Class.forName("org.postgresql.Driver");
 
@@ -23,7 +29,7 @@ public class DbConnection {
             props.setProperty("password", "admin");
 
             // set the JDBC url
-            String dburl = "jdbc:postgresql://localhost:5432/mellanbytest";
+            String dburl = "jdbc:postgresql://" + serverAddress;
 
             connection = DriverManager.getConnection(dburl, props);
 

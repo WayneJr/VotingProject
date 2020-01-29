@@ -1,6 +1,5 @@
 package sample.admin;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,8 +29,9 @@ public class Admin implements Initializable {
     @FXML
     private Button loginbutton;
 
-    @FXML
-    private JFXButton addChairman;
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,6 +66,7 @@ public class Admin implements Initializable {
         }*/
     }
 
+    // This method allows the user to login by pressing the enter key
     @FXML
     public void handleLogin(ActionEvent event) {
         serverAdd.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -81,7 +82,7 @@ public class Admin implements Initializable {
                     }
 
                     DbConnection dbConnect = new DbConnection();
-                    dbConnect.getConnection();
+                    dbConnect.getConnection(getTextfield());
                     try {
                         DbConnection.pst = DbConnection.connection.prepareStatement("SELECT * FROM candidates");
                         ResultSet rs = DbConnection.pst.executeQuery();
@@ -108,6 +109,8 @@ public class Admin implements Initializable {
         });
     }
 
+
+    // This method logs the user in when the user clicks the sign in button
     @FXML
     public void handleServerLogin(MouseEvent event) {
         try {
@@ -119,7 +122,8 @@ public class Admin implements Initializable {
         }
 
         DbConnection dbConnect = new DbConnection();
-        dbConnect.getConnection();
+        dbConnect.getConnection(getTextfield());
+        System.out.println(getTextfield());
         try {
             DbConnection.pst = DbConnection.connection.prepareStatement("SELECT * FROM candidates");
             ResultSet rs = DbConnection.pst.executeQuery();
@@ -143,8 +147,10 @@ public class Admin implements Initializable {
         }
     }
 
-    public void mainPanel() {
 
+
+    public String getTextfield() {
+        return serverAdd.getText();
     }
 
 

@@ -22,5 +22,16 @@ public class AddForm {
     private JFXButton addPart;
 
 
+    public String getCandidateID() {
+        return candID.getText();
+    }
+
+    public String getCandidateName() {
+        return candName.getText();
+    }
+
+    public String getCandidateNick() {
+        return candPosV.getText();
+    }
 
 }

@@ -24,6 +24,9 @@ public class AdminPanelM {
     @FXML
     private JFXButton resultSwitch;
 
+    AddForm addForm = new AddForm();
+
+
     /**
      * The main switch to the main panel
      */
@@ -88,11 +91,12 @@ public class AdminPanelM {
             e.printStackTrace();
         }
 
+        // Start Filling in the candidate form ish
+
     }
 
     /**
      * Add a candidate for vice Chairman to the database
-     * @param event
      */
 
     @FXML
@@ -112,7 +116,6 @@ public class AdminPanelM {
 
     /**
      * Add a candidate for General Secretary to the database
-     * @param event
      */
 
     @FXML
@@ -163,6 +166,8 @@ public class AdminPanelM {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
     /**

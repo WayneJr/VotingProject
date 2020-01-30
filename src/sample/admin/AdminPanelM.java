@@ -1,12 +1,14 @@
 package sample.admin;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import sample.DbConnection;
 
 import java.io.IOException;
 
@@ -24,7 +26,13 @@ public class AdminPanelM {
     @FXML
     private JFXButton resultSwitch;
 
-    AddForm addForm = new AddForm();
+    @FXML
+    private JFXTextField serverAddress;
+
+    Admin admin = new Admin();
+    DbConnection dbConnect = new DbConnection();
+
+
 
 
     /**
@@ -91,7 +99,30 @@ public class AdminPanelM {
             e.printStackTrace();
         }
 
+        // Connect the database
+        /*dbConnect.getConnection(serverAddress.getText());
+
+        System.out.println(serverAddress.getText());
         // Start Filling in the candidate form ish
+        try {
+            DbConnection.pst = DbConnection.connection.prepareStatement("SELECT * FROM candidates");
+            ResultSet rs = DbConnection.pst.executeQuery();
+
+
+            while (rs.next()) {
+                int id, votesReceived;
+                String candidateName, candidateNickname;
+
+                id = rs.getInt("candidate_id");
+                candidateName = rs.getString("candidate_name");
+                candidateNickname = rs.getString("candidate_nickname");
+                votesReceived = rs.getInt("votes_received");
+                System.out.print(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+
 
     }
 

@@ -2,7 +2,14 @@ package sample.admin;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import sample.DbConnection;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AddForm {
 
@@ -19,6 +26,9 @@ public class AddForm {
     private TextField candPosV;
 
     @FXML
+    private TextField serveAddress;
+
+    @FXML
     private JFXButton addPart;
 
 
@@ -32,6 +42,43 @@ public class AddForm {
 
     public String getCandidateNick() {
         return candPosV.getText();
+    }
+
+    @FXML
+    public void addParticipant(MouseEvent event) {
+        DbConnection dbConnect = new DbConnection();
+        dbConnect.getConnection(serveAddress.getText());
+
+        System.out.println(serveAddress.getText());
+
+        try {
+            String sql = "INSERT INTO candidates(candidate_id, candidate_name, candidate_nickname) values(" +
+                    Integer.parseInt(getCandidateID()) + ", '" + getCandidateName() + "', '" + getCandidateNick()
+                    + "')";
+            DbConnection.pst = DbConnection.connection.prepareStatement(sql);
+            ResultSet rs = DbConnection.pst.executeQuery();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have Successfully added a candidate");
+            alert.setTitle("Candidate Addition");
+            alert.showAndWait()
+                    .filter(response -> response == ButtonType.OK)
+                    .ifPresent(response -> alert.close());
+
+
+            /*while (rs.next()) {
+                int id, votesReceived;
+                String candidateName, candidateNickname;
+
+                id = rs.getInt("candidate_id");
+                candidateName = rs.getString("candidate_name");
+                candidateNickname = rs.getString("candidate_nickname");
+                votesReceived = rs.getInt("votes_received");
+                System.out.println("ID\t Name\t Nickname\t");
+                System.out.println(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
+            }*/
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

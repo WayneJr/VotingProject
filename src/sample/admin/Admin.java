@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class Admin implements Initializable {
 
     @FXML
-    private JFXTextField serverAdd;
+    public JFXTextField serverAdd;
 
     @FXML
     private Button loginbutton;
@@ -150,6 +150,8 @@ public class Admin implements Initializable {
 
 
     public String getTextfield() {
+
+        Admin admin = new Admin();
         return serverAdd.getText();
     }
 

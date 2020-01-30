@@ -97,7 +97,7 @@ public class Admin implements Initializable {
                             candidateName = rs.getString("candidate_name");
                             candidateNickname = rs.getString("candidate_nickname");
                             votesReceived = rs.getInt("votes_received");
-                            System.out.print(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
+                            System.out.println(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
                         }
 
 

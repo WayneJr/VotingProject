@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import sample.DbConnection;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AddForm {
@@ -56,7 +55,7 @@ public class AddForm {
                     Integer.parseInt(getCandidateID()) + ", '" + getCandidateName() + "', '" + getCandidateNick()
                     + "')";
             DbConnection.pst = DbConnection.connection.prepareStatement(sql);
-            ResultSet rs = DbConnection.pst.executeQuery();
+            DbConnection.pst.execute();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "You have Successfully added a candidate");
             alert.setTitle("Candidate Addition");

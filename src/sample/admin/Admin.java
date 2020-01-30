@@ -91,13 +91,15 @@ public class Admin implements Initializable {
 
                         while (rs.next()) {
                             int id, votesReceived;
-                            String candidateName, candidateNickname;
+                            String candidateName, candidateNickname, candidatePositionV;
 
                             id = rs.getInt("candidate_id");
                             candidateName = rs.getString("candidate_name");
                             candidateNickname = rs.getString("candidate_nickname");
+                            candidatePositionV = rs.getString("candidate_position");
                             votesReceived = rs.getInt("votes_received");
-                            System.out.println(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
+                            System.out.println(id + " " + candidateName + " " + candidateNickname + " " + votesReceived + " "
+                            + candidatePositionV + "\n");
                         }
 
 

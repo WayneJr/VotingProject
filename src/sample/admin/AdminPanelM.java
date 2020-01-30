@@ -99,30 +99,6 @@ public class AdminPanelM {
             e.printStackTrace();
         }
 
-        // Connect the database
-        /*dbConnect.getConnection(serverAddress.getText());
-
-        System.out.println(serverAddress.getText());
-        // Start Filling in the candidate form ish
-        try {
-            DbConnection.pst = DbConnection.connection.prepareStatement("SELECT * FROM candidates");
-            ResultSet rs = DbConnection.pst.executeQuery();
-
-
-            while (rs.next()) {
-                int id, votesReceived;
-                String candidateName, candidateNickname;
-
-                id = rs.getInt("candidate_id");
-                candidateName = rs.getString("candidate_name");
-                candidateNickname = rs.getString("candidate_nickname");
-                votesReceived = rs.getInt("votes_received");
-                System.out.print(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
 
     }
 

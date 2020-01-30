@@ -40,6 +40,10 @@ public class AddForm {
     }
 
     public String getCandidateNick() {
+        return candNick.getText();
+    }
+
+    public String getCandidatePosV() {
         return candPosV.getText();
     }
 
@@ -51,9 +55,9 @@ public class AddForm {
         System.out.println(serveAddress.getText());
 
         try {
-            String sql = "INSERT INTO candidates(candidate_id, candidate_name, candidate_nickname) values(" +
+            String sql = "INSERT INTO candidates(candidate_id, candidate_name, candidate_nickname, candidate_position) values(" +
                     Integer.parseInt(getCandidateID()) + ", '" + getCandidateName() + "', '" + getCandidateNick()
-                    + "')";
+                    + "', '" + getCandidatePosV() + "')";
             DbConnection.pst = DbConnection.connection.prepareStatement(sql);
             DbConnection.pst.execute();
 

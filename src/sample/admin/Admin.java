@@ -13,12 +13,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sample.DbConnection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class Admin implements Initializable {
@@ -81,7 +78,7 @@ public class Admin implements Initializable {
                         e.printStackTrace();
                     }
 
-                    DbConnection dbConnect = new DbConnection();
+                    /*DbConnection dbConnect = new DbConnection();
                     dbConnect.getConnection(getTextfield());
                     try {
                         DbConnection.pst = DbConnection.connection.prepareStatement("SELECT * FROM candidates");
@@ -105,7 +102,7 @@ public class Admin implements Initializable {
 
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
             }
         });
@@ -123,10 +120,20 @@ public class Admin implements Initializable {
             e.printStackTrace();
         }
 
-        DbConnection dbConnect = new DbConnection();
+        /*try {
+            String file = "";
+            file = new String(Files.readAllBytes(Paths.get("/root/connection.txt")));
+            System.out.println(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        /*DbConnection dbConnect = new DbConnection();
         dbConnect.getConnection(getTextfield());
         System.out.println(getTextfield());
         try {
+
+
             DbConnection.pst = DbConnection.connection.prepareStatement("SELECT * FROM candidates");
             ResultSet rs = DbConnection.pst.executeQuery();
 
@@ -141,12 +148,12 @@ public class Admin implements Initializable {
                 candidateNickname = rs.getString("candidate_nickname");
                 votesReceived = rs.getInt("votes_received");
                 System.out.print(id + " " + candidateName + " " + candidateNickname + " " + votesReceived);
-            }
+            }*/
 
 
-        } catch (SQLException e) {
+        /*} catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 

@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class AdminPanelM {
 
+    Stage stage;
+
     @FXML
     private JFXButton addChairman;
 
@@ -22,6 +24,9 @@ public class AdminPanelM {
 
     @FXML
     private JFXButton hlcSwitch;
+
+    @FXML
+    public JFXButton voteSwitch;
 
     @FXML
     private JFXButton resultSwitch;
@@ -75,6 +80,24 @@ public class AdminPanelM {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("adminPanelR.fxml"));
             Parent roots = loader.load();
             ((Stage)resultSwitch.getScene().getWindow()).setScene(new Scene(roots));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * The Vote switch on the main panel
+     */
+
+    public void setVoteSwitch(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../vote/vote1.fxml"));
+            Parent roots = loader.load();
+//            stage.getScene().setRoot(roots);
+            ((Stage)voteSwitch.getScene().getWindow()).setScene(new Scene(roots));
+
+
+//            ((Stage)voteSwitch.getScene().getWindow()).setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

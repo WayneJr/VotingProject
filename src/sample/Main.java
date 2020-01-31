@@ -8,13 +8,26 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+        this.primaryStage = primaryStage;
+        this.primaryStage.setFullScreen(true);
+//        Parent root = FXMLLoader.load(getClass().getResource("vote/vote1.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("admin/admin.fxml"));
+        Parent root2 = FXMLLoader.load(getClass().getResource("vote/vote1.fxml"));
         primaryStage.setTitle("Voters Arise!");
-        primaryStage.setScene(new Scene(root));
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+
+//        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
+
+
+
 
 
     public static void main(String[] args) {

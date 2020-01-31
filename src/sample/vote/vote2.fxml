@@ -22,15 +22,18 @@
                                  <children>
                                     <ImageView fitHeight="230.0" fitWidth="281.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../OfficerPic/OpmostChair.jpg" />
+                                          <Image url="@../OfficerPic/TayobiIge.jpg" />
                                        </image>
                                        <HBox.margin>
-                                          <Insets left="65.0" />
+                                          <Insets />
                                        </HBox.margin>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Label fx:id="chairCand1" prefHeight="41.0" prefWidth="147.0" text="Opmost">
+                              <Label fx:id="VchairCand1" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="84.0" text="Biggy">
                                  <VBox.margin>
                                     <Insets left="60.0" top="20.0" />
                                  </VBox.margin>
@@ -43,7 +46,7 @@
                                  <children>
                                     <ImageView fitHeight="230.0" fitWidth="281.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../OfficerPic/FarindeChair.jpg" />
+                                          <Image url="@../OfficerPic/ProminenceVice.jpg" />
                                        </image>
                                        <HBox.margin>
                                           <Insets left="65.0" />
@@ -51,7 +54,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Label fx:id="chairCand2" prefHeight="45.0" prefWidth="147.0" text="Farinde">
+                              <Label fx:id="VchairCand2" alignment="CENTER" prefHeight="45.0" prefWidth="147.0" text="Prominence">
                                  <VBox.margin>
                                     <Insets left="60.0" top="20.0" />
                                  </VBox.margin>
@@ -62,8 +65,8 @@
                   </HBox>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <JFXComboBox fx:id="chairVote" onMouseClicked="#fillChairman" labelFloat="true" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Choose a Chairman" />
-                        <JFXButton fx:id="chairVoteButton" onMouseClicked="#handleVote" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
+                        <JFXComboBox fx:id="VchairVote" labelFloat="true" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Choose a Chairman" />
+                        <JFXButton fx:id="VchairVoteButton" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
                      </children>
                   </AnchorPane>
                </children>

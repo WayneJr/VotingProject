@@ -94,7 +94,6 @@ public class Vote implements Initializable {
                 String nickname;
                 nickname = rs.getString("candidate_nickname");
                 candidates.add(nickname);
-                currentVote = rs.getInt("votes_received");
 //                System.out.println(currentVote);
             }
         } catch (ClassNotFoundException e) {
@@ -118,9 +117,9 @@ public class Vote implements Initializable {
     public void handleVote(MouseEvent event) {
        String vote = chairVote.getSelectionModel().getSelectedItem().toString();
        System.out.println(vote);
-       int newVote = currentVote + 1;
 
-       System.out.println(newVote);
+
+
 
        Connection conn;
        PreparedStatement pst;
@@ -138,6 +137,16 @@ public class Vote implements Initializable {
 //            String dburl = "jdbc:postgresql://" + getConnect();
            conn = DriverManager.getConnection(dburl, props);
 
+           PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+           rs = nick.executeQuery();
+
+           while (rs.next()) {
+               currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+           }
+
+           int newVote = currentVote + 1;
+           System.out.println(newVote);
            pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
            pst.execute();
 

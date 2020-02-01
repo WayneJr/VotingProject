@@ -61,7 +61,7 @@
                   </HBox>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <JFXComboBox fx:id="chairVote" labelFloat="true" layoutX="185.0" layoutY="62.0" onMouseClicked="#fillChairman" prefHeight="26.0" prefWidth="147.0" />
+                        <JFXComboBox fx:id="chairVote" labelFloat="false" promptText="Hall Chairman" layoutX="185.0" layoutY="62.0" onMouseClicked="#fillChairman" prefHeight="26.0" prefWidth="147.0" />
                         <JFXButton fx:id="chairVoteButton" layoutX="198.0" layoutY="109.0" onMouseClicked="#handleChairVote" prefHeight="38.0" prefWidth="109.0" text="Vote" />
                      </children>
                   </AnchorPane>

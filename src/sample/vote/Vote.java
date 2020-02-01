@@ -159,6 +159,7 @@ public class Vote implements Initializable {
             e.printStackTrace();
         }
 
+        candidates.add("void");
         chairVote.setItems(candidates);
     }
 
@@ -171,6 +172,24 @@ public class Vote implements Initializable {
        // Convert the vote to text format
        String vote = chairVote.getSelectionModel().getSelectedItem().toString();
        System.out.println(vote);
+
+       if (vote.equals("void")) {
+           try {
+               Stage stage = (Stage)chairVoteButton.getScene().getWindow();
+               Parent root = FXMLLoader.load(getClass().getResource("voteVice.fxml"));
+               stage.setTitle("Voters Arise!");
+               Scene scene = new Scene(root);
+               stage.setScene(scene);
+               Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+               // Set Stage boundaries to visible bounds of main screen
+               stage.setX(primaryScreenBounds.getMinX());
+               stage.setY(primaryScreenBounds.getMinY());
+               stage.setWidth(primaryScreenBounds.getWidth());
+               stage.setHeight(primaryScreenBounds.getHeight());
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       } else {
 
        // Create the database connection
        Connection conn;
@@ -220,6 +239,8 @@ public class Vote implements Initializable {
        } catch (ClassNotFoundException | SQLException | IOException e) {
            e.printStackTrace();
        }
+    }
+
    }
 
 
@@ -251,12 +272,11 @@ public class Vote implements Initializable {
                 candidates.add(nickname);
 //                System.out.println(currentVote);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
+        candidates.add("void");
         vChairVote.setItems(candidates);
    }
 
@@ -270,53 +290,72 @@ public class Vote implements Initializable {
         String vote = vChairVote.getSelectionModel().getSelectedItem().toString();
         System.out.println(vote);
 
-        // Create the database connection
-        Connection conn;
-        PreparedStatement pst;
-        ResultSet rs;
-
-        try {
-
-
-            Class.forName("org.postgresql.Driver");
-
-            Properties props = new Properties();
-            props.setProperty("user", "wayne");
-            props.setProperty("password", "admin");
-
-            String dburl = "jdbc:postgresql://" + getDataConnect();
-            conn = DriverManager.getConnection(dburl, props);
-
-            PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
-            rs = nick.executeQuery();
-
-            while (rs.next()) {
-                currentVote = rs.getInt("votes_received");
-//               System.out.println(currentVote);
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) vChairVote.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            int newVote = currentVote + 1;
-            System.out.println(newVote);
-            pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
-            pst.execute();
+        } else {
 
-            // Switch to the next Voting panel after the vote is recorded
-            Stage stage = (Stage)vChairVoteButton.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
-            stage.setTitle("Voters Arise!");
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            // Set Stage boundaries to visible bounds of main screen
-            stage.setX(primaryScreenBounds.getMinX());
-            stage.setY(primaryScreenBounds.getMinY());
-            stage.setWidth(primaryScreenBounds.getWidth());
-            stage.setHeight(primaryScreenBounds.getHeight());
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
 
 
+                Class.forName("org.postgresql.Driver");
 
-        } catch (ClassNotFoundException | SQLException | IOException e) {
-            e.printStackTrace();
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) vChairVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -348,12 +387,11 @@ public class Vote implements Initializable {
                 candidates.add(nickname);
 //                System.out.println(currentVote);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
+        candidates.add("void");
         genVote.setItems(candidates);
     }
 
@@ -365,54 +403,77 @@ public class Vote implements Initializable {
         String vote = genVote.getSelectionModel().getSelectedItem().toString();
         System.out.println(vote);
 
-        // Create the database connection
-        Connection conn;
-        PreparedStatement pst;
-        ResultSet rs;
-
-        try {
-
-
-            Class.forName("org.postgresql.Driver");
-
-            Properties props = new Properties();
-            props.setProperty("user", "wayne");
-            props.setProperty("password", "admin");
-
-            String dburl = "jdbc:postgresql://" + getDataConnect();
-            conn = DriverManager.getConnection(dburl, props);
-
-            PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
-            rs = nick.executeQuery();
-
-            while (rs.next()) {
-                currentVote = rs.getInt("votes_received");
-//               System.out.println(currentVote);
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage)genVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteAssGen.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        } else {
+           /* // Convert the vote to text format
+            String vote = assGenVote.getSelectionModel().getSelectedItem().toString();
+            System.out.println(vote);*/
 
-            int newVote = currentVote + 1;
-            System.out.println(newVote);
-            pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
-            pst.execute();
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
 
-            // Switch to the next Voting panel after the vote is recorded
-            Stage stage = (Stage)genVoteButton.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
-            stage.setTitle("Voters Arise!");
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            // Set Stage boundaries to visible bounds of main screen
-            stage.setX(primaryScreenBounds.getMinX());
-            stage.setY(primaryScreenBounds.getMinY());
-            stage.setWidth(primaryScreenBounds.getWidth());
-            stage.setHeight(primaryScreenBounds.getHeight());
+            try {
 
 
+                Class.forName("org.postgresql.Driver");
 
-        } catch (ClassNotFoundException | SQLException | IOException e) {
-            e.printStackTrace();
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage)assGenVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteFinance.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
@@ -434,7 +495,7 @@ public class Vote implements Initializable {
             String dburl = "jdbc:postgresql://" + getDataConnect();
             conn = DriverManager.getConnection(dburl, props);
 
-            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'General Secretary'");
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Assistant General Secretary'");
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -443,13 +504,11 @@ public class Vote implements Initializable {
                 candidates.add(nickname);
 //                System.out.println(currentVote);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-
-        genVote.setItems(candidates);
+        candidates.add("void");
+        assGenVote.setItems(candidates);
     }
 
     /**
@@ -457,17 +516,88 @@ public class Vote implements Initializable {
      */
     public void handleAssGenVote(MouseEvent event) {
         // Convert the vote to text format
-        String vote = genVote.getSelectionModel().getSelectedItem().toString();
+        String vote = assGenVote.getSelectionModel().getSelectedItem().toString();
         System.out.println(vote);
 
-        // Create the database connection
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) assGenVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteFinance.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) assGenVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteFinance.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Assistant General Secretary candidates
+     */
+    @FXML
+    public void fillFinance() {
         Connection conn;
         PreparedStatement pst;
         ResultSet rs;
 
         try {
-
-
             Class.forName("org.postgresql.Driver");
 
             Properties props = new Properties();
@@ -477,36 +607,669 @@ public class Vote implements Initializable {
             String dburl = "jdbc:postgresql://" + getDataConnect();
             conn = DriverManager.getConnection(dburl, props);
 
-            PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
-            rs = nick.executeQuery();
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Finance Minister'");
+            rs = pst.executeQuery();
 
             while (rs.next()) {
-                currentVote = rs.getInt("votes_received");
-//               System.out.println(currentVote);
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
             }
-
-            int newVote = currentVote + 1;
-            System.out.println(newVote);
-            pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
-            pst.execute();
-
-            // Switch to the next Voting panel after the vote is recorded
-            Stage stage = (Stage)genVoteButton.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
-            stage.setTitle("Voters Arise!");
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-            // Set Stage boundaries to visible bounds of main screen
-            stage.setX(primaryScreenBounds.getMinX());
-            stage.setY(primaryScreenBounds.getMinY());
-            stage.setWidth(primaryScreenBounds.getWidth());
-            stage.setHeight(primaryScreenBounds.getHeight());
-
-
-
-        } catch (ClassNotFoundException | SQLException | IOException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+
+        candidates.add("void");
+        financeVote.setItems(candidates);
     }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleFinanceVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = financeVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) financeVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteInterior.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) financeVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteInterior.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Assistant General Secretary candidates
+     */
+    @FXML
+    public void fillInterior() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Interior Minister'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        candidates.add("void");
+        interiorVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleInteriorVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = interiorVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) interiorVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteInfo.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) interiorVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteInfo.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Assistant General Secretary candidates
+     */
+    @FXML
+    public void fillInfo() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Information Minister'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        candidates.add("void");
+        infoVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleInfoVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = infoVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) infoVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteSocial.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) infoVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteSocial.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Assistant General Secretary candidates
+     */
+    @FXML
+    public void fillSocial() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Social Minister'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        candidates.add("void");
+        socialVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleSocialVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = socialVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) socialVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteHealth.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) socialVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteHealth.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Health Minister candidates
+     */
+    @FXML
+    public void fillHealth() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Health Minister'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        candidates.add("void");
+        healthVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleHealthVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = healthVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) healthVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteSport.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) healthVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteSport.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Assistant General Secretary candidates
+     */
+    @FXML
+    public void fillSport() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'Sport Minister'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        candidates.add("void");
+        sportVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleSportVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = sportVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        if (vote.equals("void")) {
+            try {
+                Stage stage = (Stage) genVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteHlc1.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            // Create the database connection
+            Connection conn;
+            PreparedStatement pst;
+            ResultSet rs;
+
+            try {
+
+
+                Class.forName("org.postgresql.Driver");
+
+                Properties props = new Properties();
+                props.setProperty("user", "wayne");
+                props.setProperty("password", "admin");
+
+                String dburl = "jdbc:postgresql://" + getDataConnect();
+                conn = DriverManager.getConnection(dburl, props);
+
+                PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+                rs = nick.executeQuery();
+
+                while (rs.next()) {
+                    currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+                }
+
+                int newVote = currentVote + 1;
+                System.out.println(newVote);
+                pst = conn.prepareStatement("UPDATE candidates SET votes_received = " + newVote + " WHERE candidate_nickname = '" + vote + "'");
+                pst.execute();
+
+                // Switch to the next Voting panel after the vote is recorded
+                Stage stage = (Stage) sportVoteButton.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("voteSport.fxml"));
+                stage.setTitle("Voters Arise!");
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+                // Set Stage boundaries to visible bounds of main screen
+                stage.setX(primaryScreenBounds.getMinX());
+                stage.setY(primaryScreenBounds.getMinY());
+                stage.setWidth(primaryScreenBounds.getWidth());
+                stage.setHeight(primaryScreenBounds.getHeight());
+
+
+            } catch (ClassNotFoundException | SQLException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

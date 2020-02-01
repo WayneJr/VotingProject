@@ -43,7 +43,7 @@
                         </HBox>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                             <children>
-                                <JFXComboBox fx:id="assGenVote" onMouseClicked="#fillAssGen" labelFloat="true" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Choose a General Secretary" />
+                                <JFXComboBox fx:id="assGenVote" onMouseClicked="#fillAssGen" labelFloat="true" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Assistant General Secretary" />
                                 <JFXButton fx:id="assGenVoteButton" onMouseClicked="#handleAssGenVote" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
                             </children>
                         </AnchorPane>

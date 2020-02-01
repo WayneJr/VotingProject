@@ -77,8 +77,8 @@
                         </HBox>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                             <children>
-                                <JFXComboBox fx:id="VchairVote" onMouseClicked="#fillViceChair" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Vice Chairman" />
-                                <JFXButton fx:id="VchairVoteButton" onMouseClicked="#handleVChairVote" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
+                                <JFXComboBox fx:id="vChairVote" onMouseClicked="#fillViceChair" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Vice Chairman" />
+                                <JFXButton fx:id="vChairVoteButton" onMouseClicked="#handleVChairVote" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
                             </children>
                         </AnchorPane>
                     </children>

@@ -14,9 +14,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("vote/vote1.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("vote/voteChair.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("admin/admin.fxml"));
-//        Parent root2 = FXMLLoader.load(getClass().getResource("vote/vote1.fxml"));
+//        Parent root2 = FXMLLoader.load(getClass().getResource("vote/voteChair.fxml"));
         primaryStage.setTitle("Voters Arise!");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

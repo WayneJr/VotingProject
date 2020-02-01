@@ -7,7 +7,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="712.0"
+           fx:controller="sample.vote.Vote" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
          <children>
@@ -29,7 +30,7 @@
                                     </ImageView>
                                  </children>
                               </HBox>
-                              <Label fx:id="chairCand1" prefHeight="20.0" prefWidth="73.0" text="Max">
+                              <Label prefHeight="20.0" prefWidth="73.0" text="Max">
                                  <VBox.margin>
                                     <Insets left="60.0" top="20.0" />
                                  </VBox.margin>
@@ -43,8 +44,8 @@
                   </HBox>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <JFXComboBox fx:id="chairVote" labelFloat="true" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Choose a General Secretary" />
-                        <JFXButton fx:id="chairVoteButton" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
+                        <JFXComboBox fx:id="genVote" onMouseClicked="#fillGen" labelFloat="true" layoutX="185.0" layoutY="62.0" prefHeight="26.0" prefWidth="147.0" promptText="Choose a General Secretary" />
+                        <JFXButton fx:id="genVoteButton" onMouseClicked="#handleGenVote" layoutX="198.0" layoutY="109.0" prefHeight="38.0" prefWidth="109.0" text="Vote" />
                      </children>
                   </AnchorPane>
                </children>

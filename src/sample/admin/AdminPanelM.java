@@ -91,7 +91,7 @@ public class AdminPanelM {
 
     public void setVoteSwitch(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../vote/vote1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../vote/voteChair.fxml"));
             Parent roots = loader.load();
 //            stage.getScene().setRoot(roots);
             ((Stage)voteSwitch.getScene().getWindow()).setScene(new Scene(roots));

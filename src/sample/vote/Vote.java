@@ -34,24 +34,71 @@ public class Vote implements Initializable {
     public JFXButton chairVoteButton;
 
     @FXML
-    public JFXComboBox VchairVote;
+    public JFXComboBox vChairVote;
 
     @FXML
-    public JFXButton VchairVoteButton;
+    public JFXButton vChairVoteButton;
 
     @FXML
-    public JFXComboBox GenVote;
+    public JFXComboBox genVote;
 
-    int currentVote;
+    @FXML
+    public JFXButton genVoteButton;
+
+    @FXML
+    public JFXComboBox assGenVote;
+
+    @FXML
+    public JFXButton assGenVoteButton;
+
+    @FXML
+    public JFXComboBox financeVote;
+
+    @FXML
+    public JFXButton financeVoteButton;
+
+    @FXML
+    public JFXComboBox interiorVote;
+
+    @FXML
+    public JFXButton interiorVoteButton;
+
+    @FXML
+    public JFXComboBox infoVote;
+
+    @FXML
+    public JFXButton infoVoteButton;
+
+    @FXML
+    public JFXComboBox socialVote;
+
+    @FXML
+    public JFXButton socialVoteButton;
+
+    @FXML
+    public JFXComboBox healthVote;
+
+    @FXML
+    public JFXButton healthVoteButton;
+
+    @FXML
+    public JFXComboBox sportVote;
+
+    @FXML
+    public JFXButton sportVoteButton;
+
+
+
+
+
+
+
+    private int currentVote;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        fillChairman();
-
-
-
     }
 
     /**
@@ -157,7 +204,7 @@ public class Vote implements Initializable {
 
            // Switch to the next Voting panel after the vote is recorded
            Stage stage = (Stage)chairVoteButton.getScene().getWindow();
-           Parent root = FXMLLoader.load(getClass().getResource("vote2.fxml"));
+           Parent root = FXMLLoader.load(getClass().getResource("voteVice.fxml"));
            stage.setTitle("Voters Arise!");
            Scene scene = new Scene(root);
            stage.setScene(scene);
@@ -210,13 +257,17 @@ public class Vote implements Initializable {
             e.printStackTrace();
         }
 
-        VchairVote.setItems(candidates);
+        vChairVote.setItems(candidates);
    }
 
+
+    /**
+     * This records the vote and moves to the next scene
+     */
     @FXML
     public void handleVChairVote(MouseEvent event) {
         // Convert the vote to text format
-        String vote = VchairVote.getSelectionModel().getSelectedItem().toString();
+        String vote = vChairVote.getSelectionModel().getSelectedItem().toString();
         System.out.println(vote);
 
         // Create the database connection
@@ -250,8 +301,198 @@ public class Vote implements Initializable {
             pst.execute();
 
             // Switch to the next Voting panel after the vote is recorded
-            Stage stage = (Stage)VchairVoteButton.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("vote3.fxml"));
+            Stage stage = (Stage)vChairVoteButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
+            stage.setTitle("Voters Arise!");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            // Set Stage boundaries to visible bounds of main screen
+            stage.setX(primaryScreenBounds.getMinX());
+            stage.setY(primaryScreenBounds.getMinY());
+            stage.setWidth(primaryScreenBounds.getWidth());
+            stage.setHeight(primaryScreenBounds.getHeight());
+
+
+
+        } catch (ClassNotFoundException | SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for General Secretary candidates
+     */
+    @FXML
+    public void fillGen() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'General Secretary'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        genVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleGenVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = genVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        // Create the database connection
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+
+
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+            rs = nick.executeQuery();
+
+            while (rs.next()) {
+                currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+            }
+
+            int newVote = currentVote + 1;
+            System.out.println(newVote);
+            pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
+            pst.execute();
+
+            // Switch to the next Voting panel after the vote is recorded
+            Stage stage = (Stage)genVoteButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
+            stage.setTitle("Voters Arise!");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+            // Set Stage boundaries to visible bounds of main screen
+            stage.setX(primaryScreenBounds.getMinX());
+            stage.setY(primaryScreenBounds.getMinY());
+            stage.setWidth(primaryScreenBounds.getWidth());
+            stage.setHeight(primaryScreenBounds.getHeight());
+
+
+
+        } catch (ClassNotFoundException | SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method fills the combo box with values from the database for Assistant General Secretary candidates
+     */
+    @FXML
+    public void fillAssGen() {
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            pst = conn.prepareStatement("SELECT candidate_nickname, votes_received FROM candidates WHERE candidate_position = 'General Secretary'");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String nickname;
+                nickname = rs.getString("candidate_nickname");
+                candidates.add(nickname);
+//                System.out.println(currentVote);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        genVote.setItems(candidates);
+    }
+
+    /**
+     * This records the vote and moves to the next scene
+     */
+    public void handleAssGenVote(MouseEvent event) {
+        // Convert the vote to text format
+        String vote = genVote.getSelectionModel().getSelectedItem().toString();
+        System.out.println(vote);
+
+        // Create the database connection
+        Connection conn;
+        PreparedStatement pst;
+        ResultSet rs;
+
+        try {
+
+
+            Class.forName("org.postgresql.Driver");
+
+            Properties props = new Properties();
+            props.setProperty("user", "wayne");
+            props.setProperty("password", "admin");
+
+            String dburl = "jdbc:postgresql://" + getDataConnect();
+            conn = DriverManager.getConnection(dburl, props);
+
+            PreparedStatement nick = conn.prepareStatement("SELECT votes_received FROM candidates WHERE candidate_nickname = '" + vote + "'");
+            rs = nick.executeQuery();
+
+            while (rs.next()) {
+                currentVote = rs.getInt("votes_received");
+//               System.out.println(currentVote);
+            }
+
+            int newVote = currentVote + 1;
+            System.out.println(newVote);
+            pst = conn.prepareStatement("UPDATE candidates SET votes_received = "+ newVote + " WHERE candidate_nickname = '" + vote + "'");
+            pst.execute();
+
+            // Switch to the next Voting panel after the vote is recorded
+            Stage stage = (Stage)genVoteButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("voteGen.fxml"));
             stage.setTitle("Voters Arise!");
             Scene scene = new Scene(root);
             stage.setScene(scene);
